@@ -36,7 +36,7 @@ public class SparkEndPoint implements SparkApplication {
     public void init() {
         get("/hello", (req, res) -> "Hello World Sebastian Sebastian Sebastian !!!!");
         get("/allSports", (req, res) -> getSports());
-        get("/allLeaguesFromSport", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.queryParams("id"))));
+        get("/allLeaguesFromSport/:id", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.params(":id"))));
        // get("/getAllSeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
         /**get("/AddTeam" , (req, res) -> addTeam(req.queryParams("teamName"), (Long.parseLong(req.queryParams("sportId")))));
         get("/AddLeagueToSport", (req, res) -> addLeagueToSport(Long.parseLong(req.queryParams("sportId")) , req.queryParams("leagueName")));
