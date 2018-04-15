@@ -56,22 +56,39 @@ public class SparkEndPoint implements SparkApplication {
         get("/AddGame", (req, res) -> addGame(Long.parseLong(req.queryParams("roundId"))));
         get("/AddMetaInfoToGame", (req, res) -> addMetaInfoToGame(Long.parseLong(req.queryParams("gameId")), Long.parseLong(req.queryParams("arenaId")), Integer.parseInt(req.queryParams("spectators"))));
         
-        //  TODO: Testa nedanstående metoder
+        //Många "500 Internal server error" här under, min gissning är att dessa beror på att det saknar @JsonIgnore i domänklass(er)
+        
+        //---Verkar fungera---
         get("/AddSport", (req, res) -> addSport(req.queryParams("name")));
+        //---Verkar fungera---
         get("/ConnectTeamToSeason", (req, res) -> connectTeamToSeason(Long.parseLong(req.queryParams("teamId")), Long.parseLong(req.queryParams("seasonId"))));
+        //Ger "500 Internal server error" på teamId som har bortamatcher, ger "[]" på teamId som inte har några bortamatcher
         get("/GetAllGamesForAwayTeam", (req, res) -> getAllGamesForAwayTeam(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "500 Internal server error" på teamId som har hemmamatcher, ger "[]" på teamId som inte har några hemmamatcher
         get("/GetAllGamesForHomeTeam", (req, res) -> getAllGamesForHomeTeam(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "500 Internal server error" på teamId som har matcher
         get("/GetAllGamesForOneTeam", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "500 Internal server error" på date=1, det finns ett Game med date satt till 1 i DB
         get("/GetAllGamesFromDate", (req, res) -> getAllGamesFromDate(Long.parseLong(req.queryParams("date"))));
+        //Ger "500 Internal server error" på roundId=0, det finns ett Game med round satt till 0 i DB
         get("/GetAllGamesFromRound", (req, res) -> getAllGamesFromRound(Long.parseLong(req.queryParams("roundId"))));
+        //Ger "500 Internal server error" på seasonId=0, det finns ett Game med round satt till 0 i DB, round 0 är i sin tur kopplad till season 0
         get("/GetAllGamesFromSeason", (req, res) -> getAllGamesFromSeason(Long.parseLong(req.queryParams("seasonId"))));
+        //---Verkar fungera---
         get("/GetAllLeaguesFromSport", (req, res) -> getAllLeaguesFromSport(Long.parseLong(req.queryParams("sportId"))));
+        //Ger "500 Internal server error" på teamId som har förluster, ger "[]" på teamId som inte har några förluster
         get("/GetAllLossesForTeam", (req, res) -> getAllLossesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "[]" på teamId som inte har några oavgjorda matcher, ger -TROLIGTVIS- "500 Internal server error" på teamId som har oavgjorda matcher
         get("/GetAllTiesForTeam", (req, res) -> getAllTiesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "500 Internal server error" på teamId som har vinster, ger "[]" på teamId som inte har några vinster
         get("/GetAllWinsForTeam", (req, res) -> getAllWinsForTeam(Long.parseLong(req.queryParams("teamId"))));
+        //---Verkar fungera---
         get("/GetBiggestWinLoseForTwoTeams", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
+        //Ger "500 Internal server error" med team1Id=0 & team2Id=1, vilka har en gemensam match
         get("/GetTeamsMatchHistory", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
-        get("/GetGameResultInfo", (req, res) -> getGameResultInfo(Long.parseLong(req.queryParams("teamId"))));
+        //Ger "500 Internal server error" med gameId=0 vilket har ett result, ger "no result for this game" för gameId=1 vilket är ett game utan kopplat resultat
+        get("/GetGameResultInfo", (req, res) -> getGameResultInfo(Long.parseLong(req.queryParams("gameId"))));
+        //Ger "Team 0 and team 1 was added to new game." med homeTeamId=0 & awayTeamId=1
         get("/SetHomeAndAwayTeamService", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.queryParams("homeTeamId")), Long.parseLong(req.queryParams("awayTeamId"))));
         
         
@@ -208,8 +225,8 @@ public class SparkEndPoint implements SparkApplication {
         Service service = new GetTeamsMatchHistoryService(team1Id, team2Id);
         return JsonOutputformat.create(new ServiceRunner(service).execute());
     }
-    private String getGameResultInfo(Long teamId){
-        Service service = new GetGameResultInfoService(teamId);
+    private String getGameResultInfo(Long gameId){
+        Service service = new GetGameResultInfoService(gameId);
         return (String) new ServiceRunner(service).execute();
     }
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId){
