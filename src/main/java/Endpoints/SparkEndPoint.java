@@ -37,13 +37,13 @@ public class SparkEndPoint implements SparkApplication {
         get("/hello", (req, res) -> "Hello World Sebastian Sebastian Sebastian !!!!");
         get("/allSports", (req, res) -> getSports());
         get("/allLeaguesFromSport", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.queryParams("id"))));
-       // get("/getAllSeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
-        /**get("/AddTeam" , (req, res) -> addTeam(req.queryParams("teamName"), (Long.parseLong(req.queryParams("sportId")))));
+        get("/getAllSeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
+        get("/AddTeam" , (req, res) -> addTeam(req.queryParams("teamName"), (Long.parseLong(req.queryParams("sportId")))));
         get("/AddLeagueToSport", (req, res) -> addLeagueToSport(Long.parseLong(req.queryParams("sportId")) , req.queryParams("leagueName")));
         get("/AddSpectatorsAndArena", (req, res) -> addSpectatorsAndArenaToGame(req.queryParams("gameId"), req.queryParams("arenaId"), req.queryParams("spectators")));
         get("/AddResultToGame", (req, res) -> addResultToGame(req.queryParams("homeScore"), req.queryParams("awayScore"), req.queryParams("gameId")));
         get("/AddRoundToSeason", (req, res) -> addRoundToSeason(req.queryParams("seasonId"), req.queryParams("numberOfRounds")));
-        get("/AddSeasonToLeague", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("LeagueId")));*/
+        get("/AddSeasonToLeague", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("LeagueId")));
         
     }
     public String getSports() {
