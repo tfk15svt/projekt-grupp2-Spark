@@ -98,32 +98,32 @@ public class SparkEndPoint implements SparkApplication {
     }
     public String getSports() {
         Service service = new GetAllSportService();
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     public String getAllLeaguesFromSportId(Long id) {
         Service service = new GetAllLeagueFromSportService(id);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     
     public String addSport(String name){
         Service service = new AddSportService(name);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return JsonOutputformat.create(name);
     }
     public String getAllSeasonsFromLeague(Long id){
         Service service = new GetAllSeasonsFromLeagueService(id);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     public String addTeam (String teamName, Long sportId){
         System.out.println("Hej");
         Service service = new AddTeamToSportService(teamName, sportId);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return teamName + " created";
     }
 
     private String addLeagueToSport(Long sportId, String leagueName) {
         Service service = new AddLeagueToSportService(sportId, leagueName);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return leagueName + " created";
     }
 
@@ -132,7 +132,7 @@ public class SparkEndPoint implements SparkApplication {
         Long arenaIdLong = Long.parseLong(arenaId);
         int spectatorsInt = Integer.parseInt(spectators);
         Service service = new AddMetaInfoToGameService(gameIdLong, arenaIdLong, spectatorsInt);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Arena " + arenaId + " and " + spectators + " added to game with ID " + gameId;
     }
 
@@ -141,7 +141,7 @@ public class SparkEndPoint implements SparkApplication {
         Integer numberOfGamesInteger = Integer.parseInt(numberOfGames);
         
         Service service = new AddRoundToSeasonService(seasonIdLong, numberOfGamesInteger);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Round with "+ numberOfGames + " games added to season " + seasonId;
     }
     
@@ -149,7 +149,7 @@ public class SparkEndPoint implements SparkApplication {
         int seasonYearInt = Integer.parseInt(seasonYear);
         Long leagueIdLong = Long.parseLong(leagueId);
         Service service = new AddSeasonToLeagueService(seasonYearInt, leagueIdLong);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Season added";
     }
 
@@ -158,7 +158,7 @@ public class SparkEndPoint implements SparkApplication {
         int awayScoreInt = Integer.parseInt(awayScore);
         Long gameIdLong = Long.parseLong(gameId);
         Service service = new AddResultToGameService(homeScoreInt, awayScoreInt, gameIdLong);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Result added";
     }
     
@@ -166,77 +166,77 @@ public class SparkEndPoint implements SparkApplication {
         
         Long roundIdLong = roundId;
         Service service = new AddGameService(roundIdLong);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Game added";
     }
     private String addMetaInfoToGame(Long gameId, Long arenaId, int spectators){
         Service service = new AddMetaInfoToGameService(gameId, arenaId, spectators);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Meta info added to game " + gameId;
     }
     private String connectTeamToSeason(Long teamId, Long seasonId){
         Service service = new ConnectTeamToSeasonService(teamId, seasonId);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return "Team " + teamId + " added to season " + seasonId;
     }
     private String getAllGamesForAwayTeam(Long teamId){
-        Service service = new GetAllGamesForAwayTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return runService(new GetAllGamesForAwayTeamService(teamId)); 
     }
     private String getAllGamesForHomeTeam(Long teamId){
         Service service = new GetAllGamesForHomeTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllGamesForOneTeam(Long teamId){
         Service service = new GetAllGamesForOneTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllGamesFromDate(Long date){
         Service service = new GetAllGamesFromDateService(date);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllGamesFromRound(Long roundId){
         Service service = new GetAllGamesFromRoundService(roundId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllGamesFromSeason(Long seasonId){
         Service service = new GetAllGamesFromSeasonService(seasonId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllLeaguesFromSport(Long sportId){
         Service service = new GetAllLeagueFromSportService(sportId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllLossesForTeam(Long teamId){
         Service service = new GetAllLossesForTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllTiesForTeam(Long teamId){
         Service service = new GetAllTiesForTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getAllWinsForTeam(Long teamId){
         Service service = new GetAllWinsForTeamService(teamId);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getBiggestWinLoseForTwoTeams(Long team1Id, Long team2Id){
         Service service = new GetBiggestWinLoseForTwoTeamsService(team1Id, team2Id);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getTeamsMatchHistory(Long team1Id, Long team2Id){
         Service service = new GetTeamsMatchHistoryService(team1Id, team2Id);
-        return JsonOutputformat.create(new ServiceRunner(service).execute());
+        return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
     private String getGameResultInfo(Long gameId){
         Service service = new GetGameResultInfoService(gameId);
-        return (String) new ServiceRunner(service).execute();
+        return (String) new ServiceRunner(service).internalExecute();
     }
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId){
         Service service = new SetHomeAndAwayTeamService(homeTeamId, awayTeamId);
-        new ServiceRunner(service).execute();
+        new ServiceRunner(service).internalExecute();
         return ("Team " + homeTeamId + " and team " + awayTeamId + " was added to new game.");
     }
-    
-    
+    private String runService(Service service) {
+        return new ServiceRunner(service).execute();
+    }
     
 }
