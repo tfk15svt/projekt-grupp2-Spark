@@ -71,7 +71,7 @@ public class SparkEndPoint implements SparkApplication {
         //Ger "500 Internal server error" på teamId som har matcher
         get("/GetAllGamesForOneTeam", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.queryParams("teamId"))));
         //Ger "500 Internal server error" på date=1, det finns ett Game med date satt till 1 i DB
-        get("/GetAllGamesFromDate", (req, res) -> getAllGamesFromDate(Long.parseLong(req.queryParams("date"))));
+        get("/GetAllGamesFromDate", (req, res) -> getAllGamesFromDate(Integer.parseInt(req.queryParams("date"))));
         //Ger "500 Internal server error" på roundId=0, det finns ett Game med round satt till 0 i DB
         get("/GetAllGamesFromRound", (req, res) -> getAllGamesFromRound(Long.parseLong(req.queryParams("roundId"))));
         //Ger "500 Internal server error" på seasonId=0, det finns ett Game med round satt till 0 i DB, round 0 är i sin tur kopplad till season 0
@@ -190,7 +190,7 @@ public class SparkEndPoint implements SparkApplication {
         Service service = new GetAllGamesForOneTeamService(teamId);
         return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
-    private String getAllGamesFromDate(Long date){
+    private String getAllGamesFromDate(Integer date){
         Service service = new GetAllGamesFromDateService(date);
         return JsonOutputformat.create(new ServiceRunner(service).internalExecute());
     }
