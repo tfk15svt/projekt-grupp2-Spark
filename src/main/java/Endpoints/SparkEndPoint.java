@@ -43,41 +43,34 @@ public class SparkEndPoint implements SparkApplication {
 
     @Override
     public void init() {
-        get("/hello", (req, res) -> "Hello World Sebastian Sebastian Sebastian !!!!");
-        get("/allSports", (req, res) -> getSports());
-        get("/allLeaguesFromSport", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.queryParams("id"))));
-        get("/getAllSeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
+        get("/Hello", (req, res) -> "Hello World Sebastian Sebastian Sebastian !!!!");
+        get("/Sports", (req, res) -> getSports());
+        get("/LeaguesFromSport", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.queryParams("id"))));
+        get("/SeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
         get("/AddTeam" , (req, res) -> addTeam(req.queryParams("teamName"), (Long.parseLong(req.queryParams("sportId")))));
-        get("/AddLeagueToSport", (req, res) -> addLeagueToSport(Long.parseLong(req.queryParams("sportId")) , req.queryParams("leagueName")));
+        get("/AddLeague", (req, res) -> addLeagueToSport(Long.parseLong(req.queryParams("sportId")) , req.queryParams("leagueName")));
         get("/AddSpectatorsAndArena", (req, res) -> addSpectatorsAndArenaToGame(req.queryParams("gameId"), req.queryParams("arenaId"), req.queryParams("spectators")));
-        get("/AddResultToGame", (req, res) -> addResultToGame(req.queryParams("homeScore"), req.queryParams("awayScore"), req.queryParams("gameId")));
-        get("/AddRoundToSeason", (req, res) -> addRoundToSeason(req.queryParams("seasonId"), req.queryParams("numberOfRounds")));
-        get("/AddSeasonToLeague", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("LeagueId")));
-        get("/AddRoundToSeason", (req, res) -> addRoundToSeason(req.queryParams("seasonId"), req.queryParams("numberOfGames")));
-        get("/AddSeasonToLeague", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("leagueId")));
+        get("/AddResult", (req, res) -> addResultToGame(req.queryParams("homeScore"), req.queryParams("awayScore"), req.queryParams("gameId")));
+        get("/AddRound", (req, res) -> addRoundToSeason(req.queryParams("seasonId"), req.queryParams("numberOfRounds")));
+        get("/AddSeason", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("LeagueId")));
         get("/AddGame", (req, res) -> addGame(Long.parseLong(req.queryParams("roundId"))));
         get("/AddMetaInfoToGame", (req, res) -> addMetaInfoToGame(Long.parseLong(req.queryParams("gameId")), Long.parseLong(req.queryParams("arenaId")), Integer.parseInt(req.queryParams("spectators"))));
-        
-        //Många "500 Internal server error" här under, min gissning är att dessa beror på att det saknar @JsonIgnore i domänklass(er)
-        
         get("/AddSport", (req, res) -> addSport(req.queryParams("name")));
         get("/ConnectTeamToSeason", (req, res) -> connectTeamToSeason(Long.parseLong(req.queryParams("teamId")), Long.parseLong(req.queryParams("seasonId"))));
-        get("/GetAllGamesForAwayTeam", (req, res) -> getAllGamesForAwayTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetAllGamesForHomeTeam", (req, res) -> getAllGamesForHomeTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetAllGamesForOneTeam", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetAllGamesFromDate", (req, res) -> getAllGamesFromDate(Long.parseLong(req.queryParams("date"))));
-        get("/GetAllGamesFromRound", (req, res) -> getAllGamesFromRound(Long.parseLong(req.queryParams("roundId"))));
-        get("/GetAllGamesFromSeason", (req, res) -> getAllGamesFromSeason(Long.parseLong(req.queryParams("seasonId"))));
-        get("/GetAllLeaguesFromSport", (req, res) -> getAllLeaguesFromSport(Long.parseLong(req.queryParams("sportId"))));
-        get("/GetAllLossesForTeam", (req, res) -> getAllLossesForTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetAllTiesForTeam", (req, res) -> getAllTiesForTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetAllWinsForTeam", (req, res) -> getAllWinsForTeam(Long.parseLong(req.queryParams("teamId"))));
-        get("/GetBiggestWinLoseForTwoTeams", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
-        get("/GetTeamsMatchHistory", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
+        get("/GamesForAwayTeam", (req, res) -> getAllGamesForAwayTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesForHomeTeam", (req, res) -> getAllGamesForHomeTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesForOneTeam", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesFromDate", (req, res) -> getAllGamesFromDate(Long.parseLong(req.queryParams("date"))));
+        get("/GamesFromRound", (req, res) -> getAllGamesFromRound(Long.parseLong(req.queryParams("roundId"))));
+        get("/GamesFromSeason", (req, res) -> getAllGamesFromSeason(Long.parseLong(req.queryParams("seasonId"))));
+        get("/LossesForTeam", (req, res) -> getAllLossesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/TiesForTeam", (req, res) -> getAllTiesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/WinsForTeam", (req, res) -> getAllWinsForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/BiggestWinLose", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
+        get("/MatchHistory", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
         //GetGameResultInfo behöver refaktureras. Om time är null ges nullpointer exception. (Bör även ändras från String till Json.
-        get("/GetGameResultInfo", (req, res) -> getGameResultInfo(Long.parseLong(req.queryParams("gameId"))));
-        //Ger "Team 0 and team 1 was added to new game." med homeTeamId=0 & awayTeamId=1
-        get("/SetHomeAndAwayTeamService", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.queryParams("homeTeamId")), Long.parseLong(req.queryParams("awayTeamId")), Long.parseLong(req.queryParams("gameId"))));
+        get("/GameResultInfo", (req, res) -> getGameResultInfo(Long.parseLong(req.queryParams("gameId"))));
+        get("/SetHomeAndAwayTeam", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.queryParams("homeTeamId")), Long.parseLong(req.queryParams("awayTeamId")), Long.parseLong(req.queryParams("gameId"))));
         
         
         
