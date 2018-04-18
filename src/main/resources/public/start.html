@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Page Title</title>
+</head>
+<body>
+    <h1 class="h1"> SportStats Servlet </h1>
+<!--    <div class="row">
+        <input id="qtybox">
+        <a target="_blank" href="#"  
+          onclick="this.href='/SportStatsSpark/'   
+                              +document.getElementById('qtybox').value;
+                   somefunction(this, event); return true;">
+        <button class="button">Submit</button> </a>
+    </div>-->
+    <table>
+        <tr class="rowHead"><th></th><th>Get Methods</th><th></th></tr>
+        <tr>
+          <th>Get All Sports
+          </th>
+          <th></th>
+          <td>
+              <div align="right" style="padding-right: 20px;">
+              <a target="_blank" href="Sports">
+                       <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Leagues From Sports</th>
+          <td>SportID <input id="input1"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/LeaguesFromSport/'   
+                              +document.getElementById('input1').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Get Seasons From League</th>
+          <td>LeagueID <input id="input2"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/SeasonsFromLeague/'   
+                              +document.getElementById('input2').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Get Games For Away Team</th>
+          <td>TeamID <input id="input3"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesForAwayTeam/'   
+                              +document.getElementById('input3').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Get Games For Home Team</th>
+          <td>TeamID <input id="input4"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesForHomeTeam/'   
+                              +document.getElementById('input4').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Games For One Team</th>
+          <td>TeamID <input id="input5"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesForOneTeam/'   
+                              +document.getElementById('input5').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Games From Date</th>
+          <td>Date <input id="input6"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesFromDate/'   
+                              +document.getElementById('input6').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Games From Round</th>
+          <td>Round <input id="input7"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesFromRound/'   
+                              +document.getElementById('input7').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Games From Season</th>
+          <td>Season <input id="input8"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GamesFromSeason/'   
+                              +document.getElementById('input8').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Losses for Team</th>
+          <td>TeamID <input id="input10"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/LossesForTeam/'   
+                              +document.getElementById('input10').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Ties for Team</th>
+          <td>TeamID <input id="input11"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/TiesForTeam/'   
+                              +document.getElementById('input11').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Wins for Team</th>
+          <td>TeamID <input id="input12"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/WinsForTeam/'   
+                              +document.getElementById('input12').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Game Result Info</th>
+          <td>GameID <input id="input17"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GameResultInfo/'   
+                              +document.getElementById('input17').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Get Biggest Win/Loss Between Two Teams</th>
+          <td>Team1 ID <input id="input13"> Team2 ID <input id="input14"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/BiggestWinLose/'   
+                              +document.getElementById('input13').value
+                              +'/'
+                              +document.getElementById('input14').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Get Teams Match History</th>
+          <td>Team1 ID <input id="input15"> Team2 ID <input id="input16"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/MatchHistory/'   
+                              +document.getElementById('input15').value
+                              +'/'
+                              +document.getElementById('input16').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr class="rowHead"><th></th><th>Add Methods</th><th></th></tr>
+        
+        <tr>
+          <th>Add Sport</th>
+          <td>Name <input id="Ainput0a"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddSport/'   
+                              +document.getElementById('Ainput0a').value
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Game</th>
+          <td>RoundID <input id="Ainput0b"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddGame/'   
+                              +document.getElementById('Ainput0b').value
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Add Team</th>
+          <td>Team Name <input id="Ainput1"> SportID <input id="Ainput2"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddTeam/'   
+                              +document.getElementById('Ainput1').value
+                              +'/'
+                              +document.getElementById('Ainput2').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Add League</th>
+          <td>League Name <input id="Ainput3"> SportID <input id="Ainput4"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddLeague/'   
+                              +document.getElementById('Ainput4').value
+                              +'/'
+                              +document.getElementById('Ainput3').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Spectators And Arena</th>
+          <td>GameID <input id="Ainput5"> ArenaID <input id="Ainput6"> Spectators <input id="Ainput7"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddSpectatorsAndArena/'   
+                              +document.getElementById('Ainput5').value
+                              +'/'
+                              +document.getElementById('Ainput6').value;
+                              +'/'
+                              +document.getElementById('Ainput7').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Round</th>
+          <td>SeasonId <input id="Ainput11"> Number of Games <input id="Ainput12"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddRound/'   
+                              +document.getElementById('Ainput11').value
+                              +'/'
+                              +document.getElementById('Ainput12').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Season</th>
+          <td>Year <input id="Ainput13"> LeagueID <input id="Ainput14"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddSeason/'   
+                              +document.getElementById('Ainput13').value
+                              +'/'
+                              +document.getElementById('Ainput14').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Metainfo to Game</th>
+          <td>GameId <input id="Ainput15"> Spectator <input id="Ainput16"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddMetaInfoToGame/'   
+                              +document.getElementById('Ainput15').value
+                              +'/'
+                              +document.getElementById('Ainput16').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        <tr>
+          <th>Add Result</th>
+          <td>Homescore <input id="Ainput8"> Awayscore <input id="Ainput9"> GameId <input id="Ainput10"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddResult/'   
+                              +document.getElementById('Ainput8').value
+                              +'/'
+                              +document.getElementById('Ainput9').value;
+                              +'/'
+                              +document.getElementById('Ainput10').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Connect Team To Season</th>
+          <td>TeamID <input id="Ainput17"> SeasonID <input id="Ainput18"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/ConnectTeamToSeason/'   
+                              +document.getElementById('Ainput16').value
+                              +'/'
+                              +document.getElementById('Ainput17').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        
+        
+    </table>
+</body>
+</html>

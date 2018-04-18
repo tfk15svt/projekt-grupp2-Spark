@@ -43,7 +43,7 @@ import spark.utils.IOUtils;
  *
  * @author Veiret
  */
-public class SparkEndPoint implements SparkApplication {
+public class SparkEndPointOld implements SparkApplication {
 
     
     @Override
@@ -55,32 +55,32 @@ public class SparkEndPoint implements SparkApplication {
         });
         get("/Hello", (req, res) -> "Hello World Sebastian Sebastian Sebastian !!!!");
         get("/Sports", (req, res) -> getSports());
-        get("/LeaguesFromSport/:id", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.params(":id"))));
-        get("/SeasonsFromLeague/:id" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.params(":id"))));
-        get("/AddTeam/:teamName/:sportId" , (req, res) -> addTeam(req.params(":teamName"), (Long.parseLong(req.params(":sportId")))));
-        get("/AddLeague/:sportId/:leagueName", (req, res) -> addLeagueToSport(Long.parseLong(req.params(":sportId")) , req.params(":leagueName")));
-        get("/AddSpectatorsAndArena/:gameId/:arenId/:spec", (req, res) -> addSpectatorsAndArenaToGame(req.params(":gameId"), req.params(":arenaId"), req.params(":spec")));
-        get("/AddResult/:homeScore/:awayScore/:gameId", (req, res) -> addResultToGame(req.params(":homeScore"), req.params(":awayScore"), req.params(":gameId")));
-        get("/AddRound/:seasonId/:numRounds", (req, res) -> addRoundToSeason(req.params("seasonId"), req.params(":numRounds")));
-        get("/AddSeason/:seasonYear/:leagueId", (req, res) -> addSeasonToLeague(req.params("seasonYear"), req.params(":leagueId")));
-        get("/AddGame/:roundId", (req, res) -> addGame(Long.parseLong(req.params(":roundId"))));
-        get("/AddMetaInfoToGame/:gameId/:spec", (req, res) -> addMetaInfoToGame(Long.parseLong(req.params(":gameId")), Long.parseLong(req.params("arenaId")), Integer.parseInt(req.params(":spec"))));
-        get("/AddSport/:name", (req, res) -> addSport(req.params(":name")));
-        get("/ConnectTeamToSeason/:teamId/:seasonId", (req, res) -> connectTeamToSeason(Long.parseLong(req.params(":teamId")), Long.parseLong(req.params(":seasonId"))));
-        get("/GamesForAwayTeam/:teamId", (req, res) -> getAllGamesForAwayTeam(Long.parseLong(req.params(":teamId"))));
-        get("/GamesForHomeTeam/:teamId", (req, res) -> getAllGamesForHomeTeam(Long.parseLong(req.params(":teamId"))));
-        get("/GamesForOneTeam/:teamId", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.params(":teamId"))));
-        get("/GamesFromDate/:date", (req, res) -> getAllGamesFromDate(Integer.parseInt(req.params(":date"))));
-        get("/GamesFromRound/:roundId", (req, res) -> getAllGamesFromRound(Long.parseLong(req.params("roundId"))));
-        get("/GamesFromSeason/:seasonId", (req, res) -> getAllGamesFromSeason(Long.parseLong(req.params("seasonId"))));
-        get("/LossesForTeam/:teamId", (req, res) -> getAllLossesForTeam(Long.parseLong(req.params(":teamId"))));
-        get("/TiesForTeam/:teamId", (req, res) -> getAllTiesForTeam(Long.parseLong(req.params(":teamId"))));
-        get("/WinsForTeam/:teamId", (req, res) -> getAllWinsForTeam(Long.parseLong(req.params(":teamId"))));
-        get("/BiggestWinLose/:team1Id/:team2Id", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
-        get("/MatchHistory/:team1Id/:team2Id", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
+        get("/LeaguesFromSport", (req, res) -> getAllLeaguesFromSportId(Long.parseLong(req.queryParams("id"))));
+        get("/SeasonsFromLeague" , (req, res) -> getAllSeasonsFromLeague(Long.parseLong(req.queryParams("id"))));
+        get("/AddTeam" , (req, res) -> addTeam(req.queryParams("teamName"), (Long.parseLong(req.queryParams("sportId")))));
+        get("/AddLeague", (req, res) -> addLeagueToSport(Long.parseLong(req.queryParams("sportId")) , req.queryParams("leagueName")));
+        get("/AddSpectatorsAndArena", (req, res) -> addSpectatorsAndArenaToGame(req.queryParams("gameId"), req.queryParams("arenaId"), req.queryParams("spectators")));
+        get("/AddResult", (req, res) -> addResultToGame(req.queryParams("homeScore"), req.queryParams("awayScore"), req.queryParams("gameId")));
+        get("/AddRound", (req, res) -> addRoundToSeason(req.queryParams("seasonId"), req.queryParams("numberOfRounds")));
+        get("/AddSeason", (req, res) -> addSeasonToLeague(req.queryParams("seasonYear"), req.queryParams("LeagueId")));
+        get("/AddGame", (req, res) -> addGame(Long.parseLong(req.queryParams("roundId"))));
+        get("/AddMetaInfoToGame", (req, res) -> addMetaInfoToGame(Long.parseLong(req.queryParams("gameId")), Long.parseLong(req.queryParams("arenaId")), Integer.parseInt(req.queryParams("spectators"))));
+        get("/AddSport", (req, res) -> addSport(req.queryParams("name")));
+        get("/ConnectTeamToSeason", (req, res) -> connectTeamToSeason(Long.parseLong(req.queryParams("teamId")), Long.parseLong(req.queryParams("seasonId"))));
+        get("/GamesForAwayTeam", (req, res) -> getAllGamesForAwayTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesForHomeTeam", (req, res) -> getAllGamesForHomeTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesForOneTeam", (req, res) -> getAllGamesForOneTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/GamesFromDate", (req, res) -> getAllGamesFromDate(Integer.parseInt(req.queryParams("date"))));
+        get("/GamesFromRound", (req, res) -> getAllGamesFromRound(Long.parseLong(req.queryParams("roundId"))));
+        get("/GamesFromSeason", (req, res) -> getAllGamesFromSeason(Long.parseLong(req.queryParams("seasonId"))));
+        get("/LossesForTeam", (req, res) -> getAllLossesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/TiesForTeam", (req, res) -> getAllTiesForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/WinsForTeam", (req, res) -> getAllWinsForTeam(Long.parseLong(req.queryParams("teamId"))));
+        get("/BiggestWinLose", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
+        get("/MatchHistory", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.queryParams("team1Id")), Long.parseLong(req.queryParams("team2Id"))));
         //GetGameResultInfo behöver refaktureras. Om time är null ges nullpointer exception. (Bör även ändras från String till Json.
-        get("/GameResultInfo/:gameId", (req, res) -> getGameResultInfo(Long.parseLong(req.params(":gameId"))));
-        get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
+        get("/GameResultInfo", (req, res) -> getGameResultInfo(Long.parseLong(req.queryParams("gameId"))));
+        get("/SetHomeAndAwayTeam", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.queryParams("homeTeamId")), Long.parseLong(req.queryParams("awayTeamId")), Long.parseLong(req.queryParams("gameId"))));
         
         
         
