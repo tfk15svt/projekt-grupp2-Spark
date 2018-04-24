@@ -14,6 +14,7 @@ import Services.ServiceRunner;
 import Services.AddGameService;
 import Services.AddLeagueToSportService;
 import Services.AddMetaInfoToGameService;
+import Services.AddPeriodResultsToGameService;
 import Services.AddResultToGameService;
 import Services.AddRoundToSeasonService;
 import Services.AddSeasonToLeagueService;
@@ -32,6 +33,7 @@ import Services.GetBiggestWinLoseForTwoTeamsService;
 import Services.GetGameResultInfoService;
 import Services.GetTeamsMatchHistoryService;
 import Services.SetHomeAndAwayTeamService;
+import java.util.ArrayList;
 import spark.Route;
 import spark.Spark;
 import static spark.Spark.get;
@@ -81,9 +83,34 @@ public class SparkEndPoint implements SparkApplication {
         //GetGameResultInfo behöver refaktureras. Om time är null ges nullpointer exception. (Bör även ändras från String till Json.
         get("/GameResultInfo/:gameId", (req, res) -> getGameResultInfo(Long.parseLong(req.params(":gameId"))));
         get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
+        get("/AddPeriodResultsToGameService/:homeTeamScores/:awayTeamScores/:gameId", (req, res) -> addPeriodResults(req.params(":homeTeamScores"), req.params(":awayTeamScores"), Long.parseLong(req.params(":gameId"))));
         
         
         
+    }
+    public String addPeriodResults(String homeTeamScores, String awayTeamScores, Long gameId){
+        ArrayList<Integer> homeScores = new ArrayList<Integer>();
+        ArrayList<Integer> awayScores = new ArrayList<Integer>();
+        //Parsar hemmapoäng till arraylist
+        for(int x = 0; x < homeTeamScores.length(); x++) {
+            String tempCharString = "";
+            while(homeTeamScores.charAt(x) != ':'){
+                tempCharString += homeTeamScores.charAt(x);
+            }
+            homeScores.add(Integer.parseInt(tempCharString));
+        }
+        
+        //Parsar bortapoäng till arraylist
+        for(int x = 0; x < awayTeamScores.length(); x++) {
+            String tempCharString = "";
+            while(awayTeamScores.charAt(x) != ':'){
+                tempCharString += awayTeamScores.charAt(x);
+            }
+            awayScores.add(Integer.parseInt(tempCharString));
+        }
+        Integer[] homeScoresArray = homeScores.toArray(new Integer[homeScores.size()]);
+        Integer[] awayScoresArray = awayScores.toArray(new Integer[awayScores.size()]);
+        return runService(new AddPeriodResultsToGameService(homeScoresArray, awayScoresArray, gameId));
     }
     public String getSports() {
         return runService(new GetAllSportService());
