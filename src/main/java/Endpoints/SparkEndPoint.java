@@ -34,12 +34,9 @@ import Services.GetGameResultInfoService;
 import Services.GetTeamsMatchHistoryService;
 import Services.SetHomeAndAwayTeamService;
 import java.util.ArrayList;
-import spark.Route;
-import spark.Spark;
 import static spark.Spark.get;
 import static spark.Spark.staticFiles;
 import spark.servlet.SparkApplication;
-import spark.utils.IOUtils;
 
 /**
  *
@@ -66,6 +63,7 @@ public class SparkEndPoint implements SparkApplication {
         get("/AddRound/:seasonId/:numRounds", (req, res) -> addRoundToSeason(req.params("seasonId"), req.params(":numRounds")));
         get("/AddSeason/:seasonYear/:leagueId", (req, res) -> addSeasonToLeague(req.params("seasonYear"), req.params(":leagueId")));
         get("/AddGame/:roundId", (req, res) -> addGame(Long.parseLong(req.params(":roundId"))));
+        get("/AddGame/:homeTeamId/:awayTeamId/:roundId", (req, res) -> addGameWithTeams(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":roundId"))));
         get("/AddMetaInfoToGame/:gameId/:spec", (req, res) -> addMetaInfoToGame(Long.parseLong(req.params(":gameId")), Long.parseLong(req.params("arenaId")), Integer.parseInt(req.params(":spec"))));
         get("/AddSport/:name", (req, res) -> addSport(req.params(":name")));
         get("/ConnectTeamToSeason/:teamId/:seasonId", (req, res) -> connectTeamToSeason(Long.parseLong(req.params(":teamId")), Long.parseLong(req.params(":seasonId"))));
@@ -91,11 +89,13 @@ public class SparkEndPoint implements SparkApplication {
     public String addPeriodResults(String homeTeamScores, String awayTeamScores, Long gameId){
         ArrayList<Integer> homeScores = new ArrayList<Integer>();
         ArrayList<Integer> awayScores = new ArrayList<Integer>();
+        
         //Parsar hemmapoäng till arraylist
         for(int x = 0; x < homeTeamScores.length(); x++) {
             String tempCharString = "";
             while(homeTeamScores.charAt(x) != ':'){
                 tempCharString += homeTeamScores.charAt(x);
+                x++;
             }
             homeScores.add(Integer.parseInt(tempCharString));
         }
@@ -105,6 +105,7 @@ public class SparkEndPoint implements SparkApplication {
             String tempCharString = "";
             while(awayTeamScores.charAt(x) != ':'){
                 tempCharString += awayTeamScores.charAt(x);
+                x++;
             }
             awayScores.add(Integer.parseInt(tempCharString));
         }
@@ -112,6 +113,7 @@ public class SparkEndPoint implements SparkApplication {
         Integer[] awayScoresArray = awayScores.toArray(new Integer[awayScores.size()]);
         return runService(new AddPeriodResultsToGameService(homeScoresArray, awayScoresArray, gameId));
     }
+    
     public String getSports() {
         return runService(new GetAllSportService());
     }
@@ -161,9 +163,10 @@ public class SparkEndPoint implements SparkApplication {
     }
     
     private String addGame(Long roundId) {
-        
-        Long roundIdLong = roundId;
-        return runService(new AddGameService(roundIdLong));
+        return runService(new AddGameService(roundId));
+    }
+    private String addGameWithTeams(Long homeTeamId, Long awayTeamId, Long roundId) {
+        return runService(new AddGameService(roundId, homeTeamId, awayTeamId));
     }
     private String addMetaInfoToGame(Long gameId, Long arenaId, int spectators){
         return runService(new AddMetaInfoToGameService(gameId, arenaId, spectators));

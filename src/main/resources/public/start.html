@@ -224,7 +224,7 @@ and open the template in the editor.
           <td><div align="right" style="padding-right: 20px;">
                 <a target="_blank" href="#"  
                     onclick="this.href='/SportStatsSpark/AddSport/'   
-                              +document.getElementById('Ainput0a').value
+                              +document.getElementById('Ainput0a').value;
                    somefunction(this, event); return true;">
                 <button class="button">Submit</button> </a>
               </div></td>
@@ -237,7 +237,23 @@ and open the template in the editor.
           <td><div align="right" style="padding-right: 20px;">
                 <a target="_blank" href="#"  
                     onclick="this.href='/SportStatsSpark/AddGame/'   
-                              +document.getElementById('Ainput0b').value
+                              +document.getElementById('Ainput0b').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Add Game</th>
+          <td>RoundID <input id="Ainput0c"> Home TeamID <input id="Ainput0d"> Away TeamID<input id="Ainput0e"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddGame/'   
+                              +document.getElementById('Ainput0d').value
+                              +'/'
+                              +document.getElementById('Ainput0e').value
+                              +'/'
+                              +document.getElementById('Ainput0c').value;
                    somefunction(this, event); return true;">
                 <button class="button">Submit</button> </a>
               </div></td>
@@ -280,7 +296,7 @@ and open the template in the editor.
                     onclick="this.href='/SportStatsSpark/AddSpectatorsAndArena/'   
                               +document.getElementById('Ainput5').value
                               +'/'
-                              +document.getElementById('Ainput6').value;
+                              +document.getElementById('Ainput6').value
                               +'/'
                               +document.getElementById('Ainput7').value;
                    somefunction(this, event); return true;">
@@ -342,7 +358,7 @@ and open the template in the editor.
                     onclick="this.href='/SportStatsSpark/AddResult/'   
                               +document.getElementById('Ainput8').value
                               +'/'
-                              +document.getElementById('Ainput9').value;
+                              +document.getElementById('Ainput9').value
                               +'/'
                               +document.getElementById('Ainput10').value;
                    somefunction(this, event); return true;">
@@ -356,9 +372,25 @@ and open the template in the editor.
           <td><div align="right" style="padding-right: 20px;">
                 <a target="_blank" href="#"  
                     onclick="this.href='/SportStatsSpark/ConnectTeamToSeason/'   
-                              +document.getElementById('Ainput16').value
+                              +document.getElementById('Ainput17').value
                               +'/'
-                              +document.getElementById('Ainput17').value;
+                              +document.getElementById('Ainput18').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Add Period Results To Game</th>
+          <td>Home Team Scores <input id="Ainput19"> Away Team Scores <input id="Ainput20"> GameId <input id="Ainput21"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/AddPeriodResultsToGameService/'   
+                              +document.getElementById('Ainput19').value
+                              +'/'
+                              +document.getElementById('Ainput20').value
+                              +'/'
+                              +document.getElementById('Ainput21').value;
                    somefunction(this, event); return true;">
                 <button class="button">Submit</button> </a>
               </div></td>
