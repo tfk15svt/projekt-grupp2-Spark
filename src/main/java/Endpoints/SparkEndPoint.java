@@ -89,25 +89,34 @@ public class SparkEndPoint implements SparkApplication {
     public String addPeriodResults(String homeTeamScores, String awayTeamScores, Long gameId){
         ArrayList<Integer> homeScores = new ArrayList<Integer>();
         ArrayList<Integer> awayScores = new ArrayList<Integer>();
-        
+
         //Parsar hemmapoäng till arraylist
-        for(int x = 0; x < homeTeamScores.length(); x++) {
-            String tempCharString = "";
-            while(homeTeamScores.charAt(x) != ':'){
+        String tempCharString = "";
+        int x = 0;
+        while(x < homeTeamScores.length()) {
+            if (homeTeamScores.charAt(x) != ':'){
                 tempCharString += homeTeamScores.charAt(x);
-                x++;
             }
-            homeScores.add(Integer.parseInt(tempCharString));
+            if ((homeTeamScores.charAt(x) == ':') || homeTeamScores.length() == (x+1))
+            {
+                homeScores.add(Integer.parseInt(tempCharString));
+                tempCharString = "";
+            }
+            x++;
         }
         
         //Parsar bortapoäng till arraylist
-        for(int x = 0; x < awayTeamScores.length(); x++) {
-            String tempCharString = "";
-            while(awayTeamScores.charAt(x) != ':'){
+        x = 0;
+        while(x < awayTeamScores.length()) {
+            if (awayTeamScores.charAt(x) != ':'){
                 tempCharString += awayTeamScores.charAt(x);
-                x++;
             }
-            awayScores.add(Integer.parseInt(tempCharString));
+            if ((awayTeamScores.charAt(x) == ':') || awayTeamScores.length() == (x+1))
+            {
+                awayScores.add(Integer.parseInt(tempCharString));
+                tempCharString = "";
+            }
+            x++;
         }
         Integer[] homeScoresArray = homeScores.toArray(new Integer[homeScores.size()]);
         Integer[] awayScoresArray = awayScores.toArray(new Integer[awayScores.size()]);
