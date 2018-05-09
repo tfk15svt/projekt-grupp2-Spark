@@ -220,7 +220,7 @@ public class SparkEndPoint implements SparkApplication {
         return runService(new GetTeamsMatchHistoryService(team1Id, team2Id));
     }
     private String getGameResultInfo(Long gameId){
-        return new GetGameResultInfoService(gameId).execute();
+        return runService(new GetGameResultInfoService(gameId));
     }
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId, Long gameId){
         return runService(new SetHomeAndAwayTeamService(homeTeamId, awayTeamId, gameId));
