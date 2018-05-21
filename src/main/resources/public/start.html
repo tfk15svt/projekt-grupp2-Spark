@@ -214,6 +214,21 @@ and open the template in the editor.
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
+        <tr>
+          <th>List Teams Longest Streaks</th>
+          <td>Team ID <input id="input100"> Start Date <input id="input101"> End Date <input id="input102"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/Streak/'   
+                              +document.getElementById('input100').value
+                              +'/'
+                              +document.getElementById('input101').value
+                              +'/'
+                              +document.getElementById('input102').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
         
         
         <tr class="rowHead"><th></th><th>Add Methods</th><th></th></tr>
@@ -391,6 +406,18 @@ and open the template in the editor.
                               +document.getElementById('Ainput20').value
                               +'/'
                               +document.getElementById('Ainput21').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        
+        <tr>
+          <th>Test</th>
+          <td>League Id <input id="Ainput22"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/Test/'   
+                              +document.getElementById('Ainput22').value;
                    somefunction(this, event); return true;">
                 <button class="button">Submit</button> </a>
               </div></td>

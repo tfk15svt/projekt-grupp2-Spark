@@ -32,7 +32,9 @@ import Services.GetAllWinsForTeamService;
 import Services.GetBiggestWinLoseForTwoTeamsService;
 import Services.GetGameResultInfoService;
 import Services.GetTeamsMatchHistoryService;
+import Services.ListTeamsLongestStreaks;
 import Services.SetHomeAndAwayTeamService;
+import Services.ShowTableWithDynamicFiltersService;
 import java.util.ArrayList;
 import static spark.Spark.get;
 import static spark.Spark.staticFiles;
@@ -78,11 +80,12 @@ public class SparkEndPoint implements SparkApplication {
         get("/WinsForTeam/:teamId", (req, res) -> getAllWinsForTeam(Long.parseLong(req.params(":teamId"))));
         get("/BiggestWinLose/:team1Id/:team2Id", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
         get("/MatchHistory/:team1Id/:team2Id", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
-        //GetGameResultInfo behöver refaktureras. Om time är null ges nullpointer exception. (Bör även ändras från String till Json.
         get("/GameResultInfo/:gameId", (req, res) -> getGameResultInfo(Long.parseLong(req.params(":gameId"))));
+        
         get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
         get("/AddPeriodResultsToGameService/:homeTeamScores/:awayTeamScores/:gameId", (req, res) -> addPeriodResults(req.params(":homeTeamScores"), req.params(":awayTeamScores"), Long.parseLong(req.params(":gameId"))));
-        
+        get("/Test/:leagueId", (req, res) -> test(Long.parseLong(req.params(":leagueId"))));
+        get("/Streak/:teamId/:startDate/:endDate", (req, res) -> listTeamsLongestStreaks(Long.parseLong(req.params(":leagueId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         
         
     }
@@ -225,6 +228,17 @@ public class SparkEndPoint implements SparkApplication {
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId, Long gameId){
         return runService(new SetHomeAndAwayTeamService(homeTeamId, awayTeamId, gameId));
     }
+    private String test(Long leagueId){
+        return runService(new ShowTableWithDynamicFiltersService(leagueId));
+    }
+    private String listTeamsLongestStreaks(Long teamId, Integer startDate, Integer endDate){
+        return runService(new ListTeamsLongestStreaks(teamId, startDate, endDate));
+    }
+    
+    
+    
+    
+    
     private String runService(Service service) {
         return new ServiceRunner(service).execute();
     }
