@@ -84,43 +84,16 @@ public class SparkEndPoint implements SparkApplication {
         
         get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
         get("/AddPeriodResultsToGameService/:homeTeamScores/:awayTeamScores/:gameId", (req, res) -> addPeriodResults(req.params(":homeTeamScores"), req.params(":awayTeamScores"), Long.parseLong(req.params(":gameId"))));
-        get("/Test/:leagueId", (req, res) -> test(Long.parseLong(req.params(":leagueId"))));
+        get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), null, false, null, null, null));
+        //get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), req.params(":filter"), Boolean.parseBoolean(req.params(":tDatefRound")), req.params(":HAConditions"), req.params(":Date"), req.params(":Round")));
         get("/Streak/:teamId/:startDate/:endDate", (req, res) -> listTeamsLongestStreaks(Long.parseLong(req.params(":leagueId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         
         
     }
     public String addPeriodResults(String homeTeamScores, String awayTeamScores, Long gameId){
-        ArrayList<Integer> homeScores = new ArrayList<Integer>();
-        ArrayList<Integer> awayScores = new ArrayList<Integer>();
+        ArrayList<Integer> homeScores = getIntegerListFromString(homeTeamScores);
+        ArrayList<Integer> awayScores = getIntegerListFromString(awayTeamScores);
 
-        //Parsar hemmapoäng till arraylist
-        String tempCharString = "";
-        int x = 0;
-        while(x < homeTeamScores.length()) {
-            if (homeTeamScores.charAt(x) != ':'){
-                tempCharString += homeTeamScores.charAt(x);
-            }
-            if ((homeTeamScores.charAt(x) == ':') || homeTeamScores.length() == (x+1))
-            {
-                homeScores.add(Integer.parseInt(tempCharString));
-                tempCharString = "";
-            }
-            x++;
-        }
-        
-        //Parsar bortapoäng till arraylist
-        x = 0;
-        while(x < awayTeamScores.length()) {
-            if (awayTeamScores.charAt(x) != ':'){
-                tempCharString += awayTeamScores.charAt(x);
-            }
-            if ((awayTeamScores.charAt(x) == ':') || awayTeamScores.length() == (x+1))
-            {
-                awayScores.add(Integer.parseInt(tempCharString));
-                tempCharString = "";
-            }
-            x++;
-        }
         Integer[] homeScoresArray = homeScores.toArray(new Integer[homeScores.size()]);
         Integer[] awayScoresArray = awayScores.toArray(new Integer[awayScores.size()]);
         return runService(new AddPeriodResultsToGameService(homeScoresArray, awayScoresArray, gameId));
@@ -228,15 +201,75 @@ public class SparkEndPoint implements SparkApplication {
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId, Long gameId){
         return runService(new SetHomeAndAwayTeamService(homeTeamId, awayTeamId, gameId));
     }
-    private String test(Long leagueId){
+    private String getTableFromLeague(Long leagueId){
+        return runService(new ShowTableWithDynamicFiltersService(leagueId));
+    }
+    private String getTableFromSeasons(String seasonInput, String filter, boolean trueDateFalseRound, String homeAwayConditions, String startEndDate, String startEndRound){
+        ArrayList<Long> seasonIDs = getLongListFromString(seasonInput);
+
+        if (filter.length() > 0){
+            int[] filters = getIntArrayFromString(filter);
+            if (homeAwayConditions.length() > 0){
+                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound, homeAwayConditionsArray));
+            } else{
+                return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound));
+            }
+        }
+        else if (startEndDate.length() > 0 && startEndRound.length() > 0){
+            int[] startEndDateArray = getIntArrayFromString(startEndDate);
+            int[] startEndRoundArray = getIntArrayFromString(startEndRound);
+            if(homeAwayConditions.length() > 0){
+                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray, homeAwayConditionsArray));
+            } else
+                return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray));
+        } else if (homeAwayConditions.length() > 0){
+            boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+            return runService(new ShowTableWithDynamicFiltersService(seasonIDs, homeAwayConditionsArray));
+        } else
+            return runService(new ShowTableWithDynamicFiltersService(seasonIDs));
+    }
+    private String getCustomTable(Long leagueId){
         return runService(new ShowTableWithDynamicFiltersService(leagueId));
     }
     private String listTeamsLongestStreaks(Long teamId, Integer startDate, Integer endDate){
         return runService(new ListTeamsLongestStreaks(teamId, startDate, endDate));
     }
     
-    
-    
+    private boolean[] getBooleanArrayFromString(String input){
+        String[] inputArray = input.split("-");
+        boolean[] data = new boolean[inputArray.length];
+        
+        for (int x = 0; x <= inputArray.length; x++)
+            data[x] = Boolean.parseBoolean(inputArray[x]);
+        return data;
+    }
+    private int[] getIntArrayFromString(String input){
+        String[] inputArray = input.split("-");
+        int[] data = new int[inputArray.length];
+        
+        for (int x: data)
+            data[x] = Integer.parseInt(inputArray[x]);
+        return data;
+    }
+
+    private ArrayList<Long> getLongListFromString(String input){
+        ArrayList<Long> data = new ArrayList<Long>();
+        String[] inputArray = input.split("-");
+        
+        for (String x: inputArray)
+            data.add(Long.parseLong(x));
+        return data;
+    }
+    private ArrayList<Integer> getIntegerListFromString(String input){
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        String[] inputArray = input.split("-");
+        
+        for (String x: inputArray)
+            data.add(Integer.parseInt(x));
+        return data;
+    }
     
     
     private String runService(Service service) {

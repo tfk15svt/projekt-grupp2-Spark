@@ -12,14 +12,6 @@ and open the template in the editor.
 </head>
 <body>
     <h1 class="h1"> SportStats Servlet </h1>
-<!--    <div class="row">
-        <input id="qtybox">
-        <a target="_blank" href="#"  
-          onclick="this.href='/SportStatsSpark/'   
-                              +document.getElementById('qtybox').value;
-                   somefunction(this, event); return true;">
-        <button class="button">Submit</button> </a>
-    </div>-->
     <table>
         <tr class="rowHead"><th></th><th>Get Methods</th><th></th></tr>
         <tr>
@@ -229,7 +221,32 @@ and open the template in the editor.
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
+<!--
+get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round"
+-->
+        <tr>
+          <th>Table From Seasons</th>
+          <td>Season ID's <input id="input103"> Filter <input id="input104"> tDate-fRound <input id="input105"> Home-Away Conditions <input id="input106"> Start-End Date <input id="input107"> Start-End Round <input id="input108"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GetTableFromSeasons/'   
+                              +document.getElementById('input103').value
+                              +'/'
+                              +document.getElementById('input104').value
+                              +'/'
+                              +document.getElementById('input105').value
+                              +'/'
+                              +document.getElementById('input106').value
+                              +'/'
+                              +document.getElementById('input107').value
+                              +'/'
+                              +document.getElementById('input108').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
         
+        <!-- ADD metoderna nedan -->
         
         <tr class="rowHead"><th></th><th>Add Methods</th><th></th></tr>
         
