@@ -221,7 +221,7 @@ and open the template in the editor.
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
-        <tr>
+       <!-- <tr>
           <th>Get Teams Biggest Loss</th>
           <td>Team ID <input id="input400"> Start Date <input id="input401"> End Date <input id="input402"></td>
           <td><div align="right" style="padding-right: 20px;">
@@ -247,6 +247,53 @@ and open the template in the editor.
                               +document.getElementById('input404').value
                               +'/'
                               +document.getElementById('input405').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr> -->
+       <tr>
+          <th>Show Arena Percent And Team Goals</th>
+          <td>ArenaID <input id="input406"> SeasonID <input id="input407">Start Date <input id="input408"> End Date <input id="input409"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/showArenaPercent/'   
+                              +document.getElementById('input406').value
+                              +'/'
+                              +document.getElementById('input407').value
+                              +'/'
+                              +document.getElementById('input408').value
+                              +'/'
+                              +document.getElementById('input409').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        <tr>
+          <th>Show Goals On Period Filter</th>
+          <td>SeasonID <input id="input410">Start Date <input id="input411"> End Date <input id="input412"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/ShowGoalsOnPeriodFilter/'   
+                              +document.getElementById('input410').value
+                              +'/'
+                              +document.getElementById('input411').value
+                              +'/'
+                              +document.getElementById('input412').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        <tr>
+          <th>Show Spectators And Team Goals On Date Interval</th>
+          <td>LeagueID <input id="input413">Start Date <input id="input414"> End Date <input id="input415"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/showSpectatorsAndTeamGoalsOnDateInterval/'   
+                              +document.getElementById('input413').value
+                              +'/'
+                              +document.getElementById('input414').value
+                              +'/'
+                              +document.getElementById('input415').value;
                    somefunction(this, event); return true;">
                 <button class="button">Submit</button> </a>
               </div></td>
@@ -297,7 +344,6 @@ get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:R
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
-        <tr></tr>
         
         <!-- ADD metoderna nedan -->
         

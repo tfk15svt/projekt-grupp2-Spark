@@ -30,14 +30,19 @@ import Services.Get.GetAllWinsForTeamService;
 import Services.Get.GetBiggestWinLoseForTwoTeamsService;
 import Services.Get.GetGameResultInfoService;
 import Services.Get.GetTeamsMatchHistoryService;
-import Services.GetBiggestLossForOneTeamService;
-import Services.GetBiggestWinForOneTeamService;
+import Services.Get.GetBiggestLossForOneTeamService;
+import Services.Get.GetBiggestWinForOneTeamService;
 import Services.ListTeamsLongestStreaks;
 import Services.ServiceRunner;
 import Services.SetHomeAndAwayTeamService;
 import Services.Show.ShowTableWithDynamicFiltersService;
 import java.util.ArrayList;
 import Services.Service;
+import Services.Show.ShowArenaPercentAndTeamGoalsOnDateInterval;
+import Services.Show.ShowGoalsOnPeriodFilter;
+import Services.Show.ShowSpectatorsAndTeamGoalsOnDateInterval;
+import Services.Show.ShowTeamWinLossStatistics;
+import java.util.List;
 import static spark.Spark.get;
 import static spark.Spark.staticFiles;
 import spark.servlet.SparkApplication;
@@ -86,12 +91,14 @@ public class SparkEndPoint implements SparkApplication {
         get("/LossesForTeam/:teamId", (req, res) -> getAllLossesForTeam(Long.parseLong(req.params(":teamId"))));
         get("/TiesForTeam/:teamId", (req, res) -> getAllTiesForTeam(Long.parseLong(req.params(":teamId"))));
         get("/WinsForTeam/:teamId", (req, res) -> getAllWinsForTeam(Long.parseLong(req.params(":teamId"))));
-        get("/GetBiggestLossForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestLossForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
-        get("/GetBiggestWinForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestWinForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
+        //get("/GetBiggestLossForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestLossForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
+        //get("/GetBiggestWinForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestWinForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         get("/BiggestWinLose/:team1Id/:team2Id", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
         get("/MatchHistory/:team1Id/:team2Id", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
         get("/GameResultInfo/:gameId", (req, res) -> getGameResultInfo(Long.parseLong(req.params(":gameId"))));
-        
+        get("/ShowGoalsOnPeriodFilter/:seasonId/:startDate/:endDate", (req, res) -> showGoalsOnPeriodFilter(Long.parseLong(req.params(":seasonId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
+        get("/showSpectatorsAndTeamGoalsOnDateInterval/:leagueId/:startDate/:endDate", (req, res) -> showSpectatorsAndTeamGoalsOnDateInterval(Long.parseLong(req.params(":leagueId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
+        get("/showArenaPercent/:arenaId/:seasonId/:startDate/:endDate", (req, res) -> showArenaPercentAndTeamGoalsOnDateInterval(Long.parseLong(req.params(":arenaId")), Long.parseLong(req.params(":seasonId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
         get("/AddPeriodResultsToGameService/:homeTeamScores/:awayTeamScores/:gameId", (req, res) -> addPeriodResults(req.params(":homeTeamScores"), req.params(":awayTeamScores"), Long.parseLong(req.params(":gameId"))));
         //get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), null, false, null, null, null));
@@ -219,12 +226,28 @@ public class SparkEndPoint implements SparkApplication {
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId, Long gameId){
         return runService(new SetHomeAndAwayTeamService(homeTeamId, awayTeamId, gameId));
     }
-    //   Long leagueId, int[] filter, Boolean chooseFilter, boolean[] homeAwayConditions, int[] startEndDate, int[] startEndRound
+    private String showArenaPercentAndTeamGoalsOnDateInterval(Long arenaId, Long seasonId, Integer startDate, Integer endDate){
+        return runService(new ShowArenaPercentAndTeamGoalsOnDateInterval(arenaId, seasonId, startDate, endDate));
+    }
+    private String showGoalsOnPeriodFilter(Long seasonId, Integer startDate, Integer endDate){
+        return runService(new ShowGoalsOnPeriodFilter(seasonId, startDate, endDate));
+    }
+    private String showSpectatorsAndTeamGoalsOnDateInterval(Long leagueId, Integer startDate, Integer endDate){
+        return runService(new ShowSpectatorsAndTeamGoalsOnDateInterval(leagueId, startDate, endDate));
+    }
+    //ShowTeamWinLossStatistics(List<Long> seasonIds, Boolean[] firstLastGoal, Boolean[] fullOvertime, Integer wonPeriods, Boolean[] homeAway)
+   /* private String showTeamWinLossStatistics(String seasonIds, String firstLastGoal, String fullOvertime, Integer wonPeriods, String homeAway){
+        List<Long> seasonIDs = getLongListFromString(seasonIds);
+        Boolean[] firstLastGoals = getBooleanArrayFromString(firstLastGoal);
+        Boolean[] fullOvertimes = getBooleanArrayFromString(fullOvertime);
+        Boolean[] homeAways = getBooleanArrayFromString(homeAway);
+        return runService(new ShowTeamWinLossStatistics(seasonIDs, firstLastGoals, fullOvertimes, wonPeriods, homeAways));
+    }*/
     private String getTableFromLeague(Long leagueId, String filter, boolean trueDateFalseRound, String homeAwayConditions, String startEndDate, String startEndRound){
          if (!"0".equals(filter)){
              int[] filters = getIntArrayFromString(filter);
              if (!"0".equals(homeAwayConditions)){
-                 boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                 boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
                  return runService(new ShowTableWithDynamicFiltersService(leagueId, filters, trueDateFalseRound, homeAwayConditionsArray));
              } else
                  return runService(new ShowTableWithDynamicFiltersService(leagueId, filters, trueDateFalseRound));
@@ -233,12 +256,12 @@ public class SparkEndPoint implements SparkApplication {
             int[] startEndDateArray = getIntArrayFromString(startEndDate);
             int[] startEndRoundArray = getIntArrayFromString(startEndRound);
             if(!"0".equals(homeAwayConditions)){
-                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
                 return runService(new ShowTableWithDynamicFiltersService(leagueId, startEndDateArray, startEndRoundArray, homeAwayConditionsArray));
             } else
                 return runService(new ShowTableWithDynamicFiltersService(leagueId, startEndDateArray, startEndRoundArray));
          } else if (!"0".equals(homeAwayConditions)){
-            boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+            boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
             return runService(new ShowTableWithDynamicFiltersService(leagueId, homeAwayConditionsArray));
         } else
             return runService(new ShowTableWithDynamicFiltersService(leagueId));
@@ -249,7 +272,7 @@ public class SparkEndPoint implements SparkApplication {
         if (!"0".equals(filter)){
             int[] filters = getIntArrayFromString(filter);
             if (!"0".equals(homeAwayConditions)){
-                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound, homeAwayConditionsArray));
             } else{
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound));
@@ -259,12 +282,12 @@ public class SparkEndPoint implements SparkApplication {
             int[] startEndDateArray = getIntArrayFromString(startEndDate);
             int[] startEndRoundArray = getIntArrayFromString(startEndRound);
             if(!"0".equals(homeAwayConditions)){
-                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray, homeAwayConditionsArray));
             } else
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray));
         } else if (!"0".equals(homeAwayConditions)){
-            boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+            boolean[] homeAwayConditionsArray = getPrimBooleanArrayFromString(homeAwayConditions);
             return runService(new ShowTableWithDynamicFiltersService(seasonIDs, homeAwayConditionsArray));
         } else
             return runService(new ShowTableWithDynamicFiltersService(seasonIDs));
@@ -276,7 +299,16 @@ public class SparkEndPoint implements SparkApplication {
         return runService(new ListTeamsLongestStreaks(teamId, startDate, endDate));
     }
     
-    private boolean[] getBooleanArrayFromString(String input){
+    private Boolean[] getBooleanArrayFromString(String input){
+        String[] inputArray = input.split("-");
+        Boolean[] data = new Boolean[inputArray.length];
+        
+        for (int x = 0; x < inputArray.length; x++)
+            data[x] = Boolean.parseBoolean(inputArray[x]);
+        return data;
+    }
+    
+    private boolean[] getPrimBooleanArrayFromString(String input){
         String[] inputArray = input.split("-");
         boolean[] data = new boolean[inputArray.length];
         
