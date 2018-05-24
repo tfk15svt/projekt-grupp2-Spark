@@ -221,12 +221,42 @@ and open the template in the editor.
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
+        <tr>
+          <th>Get Teams Biggest Loss</th>
+          <td>Team ID <input id="input400"> Start Date <input id="input401"> End Date <input id="input402"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GetBiggestLossForOneTeam/'   
+                              +document.getElementById('input400').value
+                              +'/'
+                              +document.getElementById('input401').value
+                              +'/'
+                              +document.getElementById('input402').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        <tr>
+          <th>Get Teams Biggest Win</th>
+          <td>Team ID <input id="input403"> Start Date <input id="input404"> End Date <input id="input405"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GetBiggestWinForOneTeam/'   
+                              +document.getElementById('input403').value
+                              +'/'
+                              +document.getElementById('input404').value
+                              +'/'
+                              +document.getElementById('input405').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
 <!--
 get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round"
 -->
         <tr>
           <th>Table From Seasons</th>
-          <td>Season ID's <input id="input103"> Filter <input id="input104"> tDate-fRound <input id="input105"> Home-Away Conditions <input id="input106"> Start-End Date <input id="input107"> Start-End Round <input id="input108"></td>
+          <td>Season ID's <input id="input103" value="0"> Filter <input id="input104" value="0"> tDate-fRound <input id="input105" value="0"> Home-Away Conditions <input id="input106" value="0"> Start-End Date <input id="input107" value="0"> Start-End Round <input id="input108" value="0"></td>
           <td><div align="right" style="padding-right: 20px;">
                 <a target="_blank" href="#"  
                     onclick="this.href='/SportStatsSpark/GetTableFromSeasons/'   
@@ -245,6 +275,29 @@ get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:R
                 <button class="button">Submit</button> </a>
               </div></td>
         </tr>
+        
+        <tr>
+          <th>Table From League</th>
+          <td>League ID <input id="input109" value="0"> Filter <input id="input110" value="0"> tDate-fRound <input id="input111" value="0"> Home-Away Conditions <input id="input112" value="0"> Start-End Date <input id="input113" value="0"> Start-End Round <input id="input114" value="0"></td>
+          <td><div align="right" style="padding-right: 20px;">
+                <a target="_blank" href="#"  
+                    onclick="this.href='/SportStatsSpark/GetTableFromLeague/'   
+                              +document.getElementById('input109').value
+                              +'/'
+                              +document.getElementById('input110').value
+                              +'/'
+                              +document.getElementById('input111').value
+                              +'/'
+                              +document.getElementById('input112').value
+                              +'/'
+                              +document.getElementById('input113').value
+                              +'/'
+                              +document.getElementById('input114').value;
+                   somefunction(this, event); return true;">
+                <button class="button">Submit</button> </a>
+              </div></td>
+        </tr>
+        <tr></tr>
         
         <!-- ADD metoderna nedan -->
         

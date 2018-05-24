@@ -5,40 +5,48 @@
  */
 package Endpoints;
 
-import Services.AddTeamToSportService;
-import Services.GetAllLeagueFromSportService;
-import Services.GetAllSeasonsFromLeagueService;
-import Services.GetAllSportService;
-import Services.Service;
-import Services.ServiceRunner;
-import Services.AddGameService;
-import Services.AddLeagueToSportService;
-import Services.AddMetaInfoToGameService;
-import Services.AddPeriodResultsToGameService;
-import Services.AddResultToGameService;
-import Services.AddRoundToSeasonService;
-import Services.AddSeasonToLeagueService;
-import Services.AddSportService;
+import Services.Add.AddGameService;
+import Services.Add.AddLeagueToSportService;
+import Services.Add.AddMetaInfoToGameService;
+import Services.Add.AddPeriodResultsToGameService;
+import Services.Add.AddResultToGameService;
+import Services.Add.AddRoundToSeasonService;
+import Services.Add.AddSeasonToLeagueService;
+import Services.Add.AddSportService;
+import Services.Add.AddTeamToSportService;
 import Services.ConnectTeamToSeasonService;
-import Services.GetAllGamesForAwayTeamService;
-import Services.GetAllGamesForHomeTeamService;
-import Services.GetAllGamesForOneTeamService;
-import Services.GetAllGamesFromDateService;
-import Services.GetAllGamesFromRoundService;
-import Services.GetAllGamesFromSeasonService;
-import Services.GetAllLossesForTeamService;
-import Services.GetAllTiesForTeamService;
-import Services.GetAllWinsForTeamService;
-import Services.GetBiggestWinLoseForTwoTeamsService;
-import Services.GetGameResultInfoService;
-import Services.GetTeamsMatchHistoryService;
+import Services.Get.GetAllGamesForAwayTeamService;
+import Services.Get.GetAllGamesForHomeTeamService;
+import Services.Get.GetAllGamesForOneTeamService;
+import Services.Get.GetAllGamesFromDateService;
+import Services.Get.GetAllGamesFromRoundService;
+import Services.Get.GetAllGamesFromSeasonService;
+import Services.Get.GetAllLeagueFromSportService;
+import Services.Get.GetAllLossesForTeamService;
+import Services.Get.GetAllSeasonsFromLeagueService;
+import Services.Get.GetAllSportService;
+import Services.Get.GetAllTiesForTeamService;
+import Services.Get.GetAllWinsForTeamService;
+import Services.Get.GetBiggestWinLoseForTwoTeamsService;
+import Services.Get.GetGameResultInfoService;
+import Services.Get.GetTeamsMatchHistoryService;
+import Services.GetBiggestLossForOneTeamService;
+import Services.GetBiggestWinForOneTeamService;
 import Services.ListTeamsLongestStreaks;
+import Services.ServiceRunner;
 import Services.SetHomeAndAwayTeamService;
-import Services.ShowTableWithDynamicFiltersService;
+import Services.Show.ShowTableWithDynamicFiltersService;
 import java.util.ArrayList;
+import Services.Service;
 import static spark.Spark.get;
 import static spark.Spark.staticFiles;
 import spark.servlet.SparkApplication;
+
+
+
+
+
+
 
 /**
  *
@@ -78,14 +86,17 @@ public class SparkEndPoint implements SparkApplication {
         get("/LossesForTeam/:teamId", (req, res) -> getAllLossesForTeam(Long.parseLong(req.params(":teamId"))));
         get("/TiesForTeam/:teamId", (req, res) -> getAllTiesForTeam(Long.parseLong(req.params(":teamId"))));
         get("/WinsForTeam/:teamId", (req, res) -> getAllWinsForTeam(Long.parseLong(req.params(":teamId"))));
+        get("/GetBiggestLossForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestLossForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
+        get("/GetBiggestWinForOneTeam/:teamId/:startDate/:endDate", (req, res) -> getBiggestWinForOneTeam(Long.parseLong(req.params(":teamId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         get("/BiggestWinLose/:team1Id/:team2Id", (req, res) -> getBiggestWinLoseForTwoTeams(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
         get("/MatchHistory/:team1Id/:team2Id", (req, res) -> getTeamsMatchHistory(Long.parseLong(req.params(":team1Id")), Long.parseLong(req.params(":team2Id"))));
         get("/GameResultInfo/:gameId", (req, res) -> getGameResultInfo(Long.parseLong(req.params(":gameId"))));
         
         get("/SetHomeAndAwayTeam/:homeTeamId/:awayTeamId/:gameId", (req, res) -> setHomeAndAwayTeamService(Long.parseLong(req.params(":homeTeamId")), Long.parseLong(req.params(":awayTeamId")), Long.parseLong(req.params(":gameId"))));
         get("/AddPeriodResultsToGameService/:homeTeamScores/:awayTeamScores/:gameId", (req, res) -> addPeriodResults(req.params(":homeTeamScores"), req.params(":awayTeamScores"), Long.parseLong(req.params(":gameId"))));
-        get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), null, false, null, null, null));
-        //get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), req.params(":filter"), Boolean.parseBoolean(req.params(":tDatefRound")), req.params(":HAConditions"), req.params(":Date"), req.params(":Round")));
+        //get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), null, false, null, null, null));
+        get("/GetTableFromSeasons/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromSeasons(req.params(":seasonIds"), req.params(":filter"), Boolean.parseBoolean(req.params(":tDatefRound")), req.params(":HAConditions"), req.params(":Date"), req.params(":Round")));
+        get("/GetTableFromLeague/:seasonIds/:filter/:tDatefRound/:HAConditions/:Date/:Round", (req, res) -> getTableFromLeague(Long.parseLong(req.params(":seasonIds")), req.params(":filter"), Boolean.parseBoolean(req.params(":tDatefRound")), req.params(":HAConditions"), req.params(":Date"), req.params(":Round")));
         get("/Streak/:teamId/:startDate/:endDate", (req, res) -> listTeamsLongestStreaks(Long.parseLong(req.params(":leagueId")), Integer.parseInt(req.params(":startDate")), Integer.parseInt(req.params(":endDate"))));
         
         
@@ -98,6 +109,7 @@ public class SparkEndPoint implements SparkApplication {
         Integer[] awayScoresArray = awayScores.toArray(new Integer[awayScores.size()]);
         return runService(new AddPeriodResultsToGameService(homeScoresArray, awayScoresArray, gameId));
     }
+    
     
     public String getSports() {
         return runService(new GetAllSportService());
@@ -189,6 +201,12 @@ public class SparkEndPoint implements SparkApplication {
     private String getAllWinsForTeam(Long teamId){
         return runService(new GetAllWinsForTeamService(teamId));
     }
+    private String getBiggestLossForOneTeam(Long teamId, Integer startDate, Integer endDate){
+        return runService(new GetBiggestLossForOneTeamService(teamId, startDate, endDate));
+    }
+    private String getBiggestWinForOneTeam(Long teamId, Integer startDate, Integer endDate){
+        return runService(new GetBiggestWinForOneTeamService(teamId, startDate, endDate));
+    }
     private String getBiggestWinLoseForTwoTeams(Long team1Id, Long team2Id){
         return runService(new GetBiggestWinLoseForTwoTeamsService(team1Id, team2Id));
     }
@@ -201,30 +219,51 @@ public class SparkEndPoint implements SparkApplication {
     private String setHomeAndAwayTeamService(Long homeTeamId, Long awayTeamId, Long gameId){
         return runService(new SetHomeAndAwayTeamService(homeTeamId, awayTeamId, gameId));
     }
-    private String getTableFromLeague(Long leagueId){
-        return runService(new ShowTableWithDynamicFiltersService(leagueId));
+    //   Long leagueId, int[] filter, Boolean chooseFilter, boolean[] homeAwayConditions, int[] startEndDate, int[] startEndRound
+    private String getTableFromLeague(Long leagueId, String filter, boolean trueDateFalseRound, String homeAwayConditions, String startEndDate, String startEndRound){
+         if (!"0".equals(filter)){
+             int[] filters = getIntArrayFromString(filter);
+             if (!"0".equals(homeAwayConditions)){
+                 boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                 return runService(new ShowTableWithDynamicFiltersService(leagueId, filters, trueDateFalseRound, homeAwayConditionsArray));
+             } else
+                 return runService(new ShowTableWithDynamicFiltersService(leagueId, filters, trueDateFalseRound));
+         }
+         else if (!"0".equals(startEndDate) && !"0".equals(startEndRound)){
+            int[] startEndDateArray = getIntArrayFromString(startEndDate);
+            int[] startEndRoundArray = getIntArrayFromString(startEndRound);
+            if(!"0".equals(homeAwayConditions)){
+                boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+                return runService(new ShowTableWithDynamicFiltersService(leagueId, startEndDateArray, startEndRoundArray, homeAwayConditionsArray));
+            } else
+                return runService(new ShowTableWithDynamicFiltersService(leagueId, startEndDateArray, startEndRoundArray));
+         } else if (!"0".equals(homeAwayConditions)){
+            boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
+            return runService(new ShowTableWithDynamicFiltersService(leagueId, homeAwayConditionsArray));
+        } else
+            return runService(new ShowTableWithDynamicFiltersService(leagueId));
     }
     private String getTableFromSeasons(String seasonInput, String filter, boolean trueDateFalseRound, String homeAwayConditions, String startEndDate, String startEndRound){
         ArrayList<Long> seasonIDs = getLongListFromString(seasonInput);
 
-        if (filter.length() > 0){
+        if (!"0".equals(filter)){
             int[] filters = getIntArrayFromString(filter);
-            if (homeAwayConditions.length() > 0){
+            if (!"0".equals(homeAwayConditions)){
                 boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound, homeAwayConditionsArray));
             } else{
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, filters, trueDateFalseRound));
             }
         }
-        else if (startEndDate.length() > 0 && startEndRound.length() > 0){
+        else if (!"0".equals(startEndDate) && !"0".equals(startEndRound)){
             int[] startEndDateArray = getIntArrayFromString(startEndDate);
             int[] startEndRoundArray = getIntArrayFromString(startEndRound);
-            if(homeAwayConditions.length() > 0){
+            if(!"0".equals(homeAwayConditions)){
                 boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray, homeAwayConditionsArray));
             } else
                 return runService(new ShowTableWithDynamicFiltersService(seasonIDs, startEndDateArray, startEndRoundArray));
-        } else if (homeAwayConditions.length() > 0){
+        } else if (!"0".equals(homeAwayConditions)){
             boolean[] homeAwayConditionsArray = getBooleanArrayFromString(homeAwayConditions);
             return runService(new ShowTableWithDynamicFiltersService(seasonIDs, homeAwayConditionsArray));
         } else
@@ -241,7 +280,7 @@ public class SparkEndPoint implements SparkApplication {
         String[] inputArray = input.split("-");
         boolean[] data = new boolean[inputArray.length];
         
-        for (int x = 0; x <= inputArray.length; x++)
+        for (int x = 0; x < inputArray.length; x++)
             data[x] = Boolean.parseBoolean(inputArray[x]);
         return data;
     }
@@ -249,13 +288,13 @@ public class SparkEndPoint implements SparkApplication {
         String[] inputArray = input.split("-");
         int[] data = new int[inputArray.length];
         
-        for (int x: data)
+        for (int x = 0; x < inputArray.length; x++)
             data[x] = Integer.parseInt(inputArray[x]);
         return data;
     }
 
     private ArrayList<Long> getLongListFromString(String input){
-        ArrayList<Long> data = new ArrayList<Long>();
+        ArrayList<Long> data = new ArrayList<>();
         String[] inputArray = input.split("-");
         
         for (String x: inputArray)
@@ -263,7 +302,7 @@ public class SparkEndPoint implements SparkApplication {
         return data;
     }
     private ArrayList<Integer> getIntegerListFromString(String input){
-        ArrayList<Integer> data = new ArrayList<Integer>();
+        ArrayList<Integer> data = new ArrayList<>();
         String[] inputArray = input.split("-");
         
         for (String x: inputArray)
